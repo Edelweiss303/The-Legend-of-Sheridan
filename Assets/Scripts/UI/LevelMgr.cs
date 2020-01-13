@@ -7,6 +7,9 @@ public class LevelMgr : MonoBehaviour
     private Scene GlobalScene;  // the scene with our entry point to our game.  all the singletons, managers, etc we need to run
     private Scene CurrentScene; // the current gameplay scene.
 
+    public GameObject player;
+    public Transform startPosition;
+
     // called zero
     void Awake()
     {
@@ -17,6 +20,9 @@ public class LevelMgr : MonoBehaviour
 
         // init
         GlobalScene = SceneManager.GetActiveScene();
+
+        player = GameObject.FindGameObjectWithTag("Player");
+        player.transform.position = startPosition.position;
     }
 
     // called first
@@ -31,7 +37,9 @@ public class LevelMgr : MonoBehaviour
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         if (scene == GlobalScene)
+        {
             return;
+        }
  
         if (scene != GlobalScene)
         {
@@ -52,7 +60,8 @@ public class LevelMgr : MonoBehaviour
         {
             SceneManager.UnloadSceneAsync(current);
         }
-        
+
+        player.transform.position = startPosition.position;
         Debug.Log("OnSceneUnloaded: " + current);
     }
 
